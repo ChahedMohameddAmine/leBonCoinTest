@@ -1,0 +1,55 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'de.mannodermaus.android-junit5' version "1.9.3.0"
+}
+
+android {
+    namespace 'com.leboncoin.domain'
+    compileSdk 33
+
+    defaultConfig {
+        minSdk 21
+
+        testInstrumentationRunner "com.leboncoin.datalayer.repomanager.CustomTestRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+}
+
+dependencies {
+    implementation "com.android.support:support-annotations:28.0.0"
+    commonDependencies.each { key, value ->
+        if (key.endsWith('ATImp')) {
+            androidTestImplementation value
+        } else if (key.endsWith('Imp')) {
+            implementation value
+        } else if (key.endsWith('Kapt')) {
+            kapt value
+        } else if (key.endsWith('KaptTest')) {
+            kaptTest value
+        } else if (key.endsWith('KaptAndTest')) {
+            kaptAndroidTest value
+        }
+        else if (key.endsWith('TestAnnot')) {
+            testAnnotationProcessor value
+        } else if (key.endsWith('TImp')) {
+            testImplementation value
+        } else if (key.endsWith('TRun')) {
+            testRuntimeOnly value
+        }
+    }
+}

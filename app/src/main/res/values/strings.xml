@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">AlbumSample</string>
+
+    <string name="api_server_error">Erreur Serveur , veuillez réessayer ultérieurement</string>
+    <string name="api_indicator_online">En Ligne</string>
+    <string name="api_indicator_offline">Hors Ligne</string>
+    <string name="no_network_title">Pas de connexion \nInternet !</string>
+    <string name="no_network_desc">Aucune connexion. Veuillez vérifier que votre mobile est bien connecté à Internet</string>
+
+    <string name="menu_home">Leboncoin Android Test</string>
+</resources>

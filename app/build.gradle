@@ -1,0 +1,131 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'de.mannodermaus.android-junit5' version "1.9.3.0"
+}
+
+android {
+    namespace 'com.leboncoin.albumsample'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.leboncoin.albumsample"
+        minSdk 21
+        targetSdk 33
+        versionCode computeVersionCode()
+        versionName computeProdVersionName()
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+        multiDexEnabled = true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions = ["app"]
+    productFlavors {
+        def APP_NAME = "albumSample_default_name"
+        qualif {
+            dimension "app"
+            versionName computeQAVersionName{}
+            applicationIdSuffix ".qualif"
+
+            buildConfigField "String", "ENV", '"QUALIF"'
+            resValue "string", APP_NAME, "My AlbumSample Q"
+        }
+
+        dev {
+            getIsDefault().set(true)
+            dimension "app"
+            applicationIdSuffix ".dev"
+            versionName computeDevVersionName{}
+            buildConfigField "String", "ENV", '"DEV"'
+            resValue "string", APP_NAME, "My AlbumSample Dev"
+
+        }
+
+        preprod {
+            dimension "app"
+            versionName computePPVersionName{}
+            applicationIdSuffix ".preprod"
+            buildConfigField "String", "ENV", '"PREPROD"'
+            resValue "string", APP_NAME, "My AlbumSample PP"
+        }
+
+        prod {
+            dimension "app"
+            buildConfigField "String", "ENV", '"PROD"'
+            resValue "string", APP_NAME, '"My AlbumSample"'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildFeatures {
+        buildConfig = true
+    }
+    buildFeatures {
+        viewBinding true
+    }
+
+    packaging {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation project(':domain')
+    implementation project(':base')
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.0'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.0'
+    // Swipe To refresh
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipeToRefresh"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.4.0'
+    def paging_version = "3.2.1"
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+    //SDP
+    implementation "com.intuit.sdp:sdp-android:1.1.0"
+    //swipeToRefresh
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
+
+
+    commonDependencies.each { key, value ->
+        if (key.endsWith('ATImp')) {
+            androidTestImplementation value
+        } else if (key.endsWith('Imp')) {
+            implementation value
+        } else if (key.endsWith('Kapt')) {
+            kapt value
+        } else if (key.endsWith('TImp')) {
+            testImplementation value
+        } else if (key.endsWith('TRun')) {
+            testRuntimeOnly value
+        }
+    }
+}

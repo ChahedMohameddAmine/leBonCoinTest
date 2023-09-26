@@ -1,0 +1,81 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'com.google.devtools.ksp'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+    namespace 'com.leboncoin.datalayer'
+    compileSdk 33
+
+    defaultConfig {
+        minSdk 21
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        // Flag to enable support for the new language APIs
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    implementation project(':domain')
+    // Room
+    implementation "androidx.room:room-runtime:$roomVersion"
+    implementation "androidx.room:room-common:$roomVersion"
+    implementation 'com.google.ar:core:1.39.0'
+    ksp "androidx.room:room-compiler:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
+    implementation "androidx.room:room-paging:$roomVersion"
+
+    // GSON
+    implementation "com.google.code.gson:gson:$gsonVersion"
+
+    // Retrofit Dependencies
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+
+    // OkHttp artifacts using BOM
+    implementation(platform('com.squareup.okhttp3:okhttp-bom:5.0.0-alpha.11'))
+    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.okhttp3:logging-interceptor")
+
+    // For AGP 7.4+
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
+
+    testImplementation 'com.google.dagger:hilt-android-testing:2.44'
+
+    testImplementation "org.mockito:mockito-core:5.5.0"
+    // Optional -- mockito-kotlin
+    testImplementation "org.mockito.kotlin:mockito-kotlin:3.2.0"
+    // Optional -- Mockk framework
+    testImplementation "org.robolectric:robolectric:4.5.1"
+
+
+    commonDependencies.each { key, value ->
+        if (key.endsWith('Imp')) {
+            implementation value
+        } else if (key.endsWith('Kapt')) {
+            kapt value
+        } else if (key.endsWith('TImp')) {
+            testImplementation value
+        } else if (key.endsWith('TRun')) {
+            testRuntimeOnly value
+        }
+    }
+
+}

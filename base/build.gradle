@@ -1,0 +1,50 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+    namespace 'com.leboncoin.base'
+    compileSdk 33
+
+    defaultConfig {
+        minSdk 21
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation project(':data')
+    implementation project(':domain')
+    implementation project(':commons-android')
+    //for testing retrofit.
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.9.3")
+
+
+    commonDependencies.each { key, value ->
+        if (key.endsWith('Imp')) {
+            implementation value
+        } else if (key.endsWith('Kapt')) {
+            kapt value
+        } else if (key.endsWith('TImp')) {
+            testImplementation value
+        } else if (key.endsWith('TRun')) {
+            testRuntimeOnly value
+        }
+    }
+}

@@ -1,0 +1,29 @@
+ext {
+    computeVersionCode = {
+        Integer.parseInt(versionMajor) * 1000000 +
+                Integer.parseInt(versionMinor) * 100000 +
+                Integer.parseInt(versionPatch) * 1000 +
+                Integer.parseInt(hockeyDelivery)
+    }
+
+    computeProdVersionName = {
+        return "$versionMajor.$versionMinor.$versionPatch"
+    }
+
+    computeQAVersionName = {
+        return "Q.$versionMajor.$versionMinor.$versionPatch.$hockeyDelivery.${getDate()}"
+    }
+
+    computeDevVersionName = {
+        return "D.$versionMajor.$versionMinor.$versionPatch.$hockeyDelivery.${getDate()}"
+    }
+
+    computePPVersionName = {
+        return "P.$versionMajor.$versionMinor.$versionPatch.$hockeyDelivery.${getDate()}"
+    }
+
+}
+static def getDate() {
+    return new Date().format('yyyyMMddHHmm')
+}
+

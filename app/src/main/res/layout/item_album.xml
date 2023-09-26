@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/album_img"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_margin="@dimen/_7sdp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_launcher_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/circleImageView" />
+
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/image_barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="end"
+        app:constraint_referenced_ids="album_img" />
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/album_name"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginEnd="@dimen/_4sdp"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:gravity="start|center_vertical"
+        android:textSize="@dimen/_12sdp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/album_img"
+        app:layout_constraintEnd_toStartOf="@+id/favorite_view"
+        app:layout_constraintStart_toEndOf="@+id/image_barrier"
+        app:layout_constraintTop_toTopOf="@+id/album_img"
+        tools:text="Album Name" />
+
+    <ImageView
+        android:id="@+id/favorite_view"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:elevation="@dimen/_10sdp"
+        android:focusable="true"
+        android:padding="@dimen/_13sdp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_favorite_star_off"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
